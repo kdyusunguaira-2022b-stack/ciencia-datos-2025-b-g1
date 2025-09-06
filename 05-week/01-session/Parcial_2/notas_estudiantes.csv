@@ -1,0 +1,47 @@
+import pandas as pd
+import numpy as np
+
+# Parámetros
+materias = ['MAT101']
+grupos = ['G1']
+estudiantes = [
+    {'Estudiante_ID': 1001, 'Nombre': 'Ana'},
+    {'Estudiante_ID': 1002, 'Nombre': 'Luis'},
+    {'Estudiante_ID': 1003, 'Nombre': 'Carlos'},
+    {'Estudiante_ID': 1004, 'Nombre': 'Valeria'},
+    {'Estudiante_ID': 1005, 'Nombre': 'Jorge'},
+    {'Estudiante_ID': 1006, 'Nombre': 'María'},
+    {'Estudiante_ID': 1007, 'Nombre': 'Andrés'},
+    {'Estudiante_ID': 1008, 'Nombre': 'Paola'},
+    {'Estudiante_ID': 1009, 'Nombre': 'Juan'},
+    {'Estudiante_ID': 1010, 'Nombre': 'Laura'},
+]
+
+# Componentes y cortes
+componentes = ['Parcial', 'Actividades', 'Certificación', 'Autoevaluación', 'Proyecto']
+cortes = [1, 2, 3]
+
+# Generar datos sintéticos
+rows = []
+np.random.seed(42)
+
+for estudiante in estudiantes:
+    for corte in cortes:
+        fila = {
+            'Materia': 'MAT101',
+            'Grupo': 'G1',
+            'Estudiante_ID': estudiante['Estudiante_ID'],
+            'Nombre': estudiante['Nombre'],
+            'Corte': corte
+        }
+        # Notas aleatorias entre 2.5 y 5.0
+        for comp in componentes:
+            fila[comp] = round(np.random.uniform(2.5, 5.0), 1)
+        rows.append(fila)
+
+# Crear DataFrame
+df = pd.DataFrame(rows)
+
+# Guardar como CSV
+df.to_csv('notas_estudiantes.csv', index=False)
+print("Archivo 'notas_estudiantes.csv' generado exitosamente.")
