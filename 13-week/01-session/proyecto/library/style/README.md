@@ -1,52 +1,129 @@
-# 📊 Biblioteca de Estilos para Gráficas
+# 📊 Generic Graph Styling Library - Refactored
 
-Esta carpeta contiene funciones reutilizables para crear gráficas consistentes y profesionales en todo el proyecto.
+This library provides **reusable, modular functions** for creating professional visualizations with consistent styling. It has been refactored to work with **any dataset and visualization type**.
 
-## 📁 Estructura
+## 🎯 Key Features
+
+- ✅ **Generic Functions**: Work with any data, not just student grades
+- ✅ **Modular Design**: Small, focused functions that do one thing well
+- ✅ **Type Hints**: Full type annotations for better IDE support
+- ✅ **Zero Redundancy**: DRY principle applied throughout
+- ✅ **Backward Compatible**: Specialized wrappers still available
+- ✅ **Highly Customizable**: Accept `**kwargs` for matplotlib parameters
+
+## 📁 Files
 
 ```
 style/
-├── __init__.py          # Módulo principal que exporta todas las funciones
-├── graficas.py          # Funciones para crear gráficas
-└── README.md            # Este archivo
+├── __init__.py                 # Module exports
+├── graficas.py                 # Legacy specialized functions
+├── function_graph_json.py      # Refactored generic functions
+├── README.md                   # This file
+├── REFACTOR.md                 # Detailed refactoring documentation
+└── examples.py                 # Usage examples
 ```
 
-## 🚀 Uso
+## 🚀 Quick Start
 
-### 1. Importar la biblioteca en el notebook
-
+### Installation
 ```python
 import sys
 sys.path.append('library')
 
-from style import (
-    configurar_estilo_global,
-    grafica_barras_aprobados,
-    grafica_pastel_aprobados,
-    grafica_histograma_notas,
-    grafica_barras_por_corte,
-    mostrar_estadisticas_tabla,
-    guardar_grafica,
-    COLORES
-)
+from style import configurar_estilo_global, crear_grafica_barras
 
-# Configurar estilo global
+# Configure global style
 configurar_estilo_global()
 ```
 
-## 📋 Funciones Disponibles
-
-### `configurar_estilo_global()`
-Configura el estilo global para todas las gráficas del notebook.
-
-**Uso:**
+### Basic Example
 ```python
-configurar_estilo_global()
+# Any bar chart
+data = [100, 250, 180, 300]
+labels = ['Q1', 'Q2', 'Q3', 'Q4']
+
+fig, ax = crear_grafica_barras(
+    data=data,
+    labels=labels,
+    title='Quarterly Sales',
+    xlabel='Quarter',
+    ylabel='Sales ($1000)'
+)
+plt.show()
 ```
 
----
+## 📚 Generic Functions (NEW)
 
-### `grafica_barras_aprobados(conteo_estado, total_estudiantes, titulo=None, figsize=(10, 6))`
+### `crear_grafica_barras()`
+Create any bar chart with full customization.
+
+```python
+fig, ax = crear_grafica_barras(
+    data=[10, 20, 15, 25],
+    labels=['A', 'B', 'C', 'D'],
+    colors=['#3498db', '#e74c3c', '#2ecc71', '#f39c12'],
+    title='My Data',
+    xlabel='Categories',
+    ylabel='Values',
+    show_values=True,
+    value_format=lambda x: f'{x}%'
+)
+```
+
+### `crear_grafica_pastel()`
+Create any pie chart.
+
+```python
+fig, ax = crear_grafica_pastel(
+    data=[30, 45, 25],
+    labels=['Product A', 'Product B', 'Product C'],
+    title='Market Share',
+    colors=['#3498db', '#2ecc71', '#e74c3c']
+)
+```
+
+### `crear_histograma()`
+Create histograms with optional threshold coloring.
+
+```python
+import numpy as np
+data = np.random.normal(100, 15, 500)
+
+fig, ax = crear_histograma(
+    data=data,
+    bins=20,
+    title='Distribution',
+    threshold=90,
+    threshold_colors={'below': 'red', 'above': 'green'},
+    threshold_label='Minimum Standard'
+)
+```
+
+### `crear_barras_agrupadas()`
+Create grouped/clustered bar charts.
+
+```python
+data = {
+    'Group 1': [10, 20, 30],
+    'Group 2': [15, 25, 35],
+    'Group 3': [12, 22, 32]
+}
+labels = ['Cat A', 'Cat B', 'Cat C']
+
+fig, ax = crear_barras_agrupadas(
+    data_dict=data,
+    labels=labels,
+    title='Comparison',
+    add_hline=25,
+    hline_label='Target'
+)
+```
+
+## 🎓 Specialized Functions (Student Grades)
+
+For backward compatibility and convenience:
+
+### `grafica_barras_aprobados()`
 Crea una gráfica de barras mostrando estudiantes aprobados vs no aprobados.
 
 **Parámetros:**
